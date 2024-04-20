@@ -71,14 +71,14 @@ class QuizApp(QWidget):
 
     def loadQuestions(self):
         try:
-            with open('questions.json', 'r') as file:
+            with open('questions.json', 'r', encoding='utf-8') as file:
                 return json.load(file)
         except FileNotFoundError:
             return {}
 
     def saveQuestions(self):
-        with open('questions.json', 'w') as file:
-            json.dump(self.Ques, file)
+        with open('questions.json', 'w', encoding='utf-8') as file:
+            json.dump(self.Ques, file, ensure_ascii=False)
 
 class QuizPage(QWidget):
     def __init__(self, parent):
