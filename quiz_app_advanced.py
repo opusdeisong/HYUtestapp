@@ -30,13 +30,6 @@ class QuizApp(QWidget):
         self.quiz_page = QuizPage(self)
         self.stack.addWidget(self.quiz_page)
 
-        self.add_page = AddQuestionPage(self)
-        self.stack.addWidget(self.add_page)
-
-        self.add_button = QPushButton('Add Question')
-        self.add_button.clicked.connect(self.showAddPage)
-        layout.addWidget(self.add_button)
-
         self.select_button = QPushButton('Select JSON File')
         self.select_button.clicked.connect(self.selectJSONFile)
         layout.addWidget(self.select_button)
@@ -146,21 +139,6 @@ class QuizApp(QWidget):
             QMessageBox.warning(self, 'Incorrect', f'틀렸습니다. 정답은 "{self.Ques[self.question]}"입니다.')
             self.saveQuestions()
             self.nextQuestion()
-    def addQuestion(self, question, answer):
-        if question and answer:
-            self.Ques[question] = answer
-            self.saveQuestions()
-            self.updateOriginalJSONFile()
-            QMessageBox.information(self, 'Question Added', '새로운 문제가 추가되었습니다.')
-        else:
-            QMessageBox.warning(self, 'Invalid Input', '문제와 정답을 모두 입력해주세요.')
-
-    def updateOriginalJSONFile(self):
-        with open(self.json_file, 'w', encoding='utf-8') as file:
-            json.dump(self.Ques, file, ensure_ascii=False)
-
-    def showAddPage(self):
-        self.stack.setCurrentWidget(self.add_page)
 
     def showQuizPage(self):
         self.stack.setCurrentWidget(self.quiz_page)
@@ -197,52 +175,6 @@ class QuizPage(QWidget):
         layout.addWidget(self.submit_button)
 
         self.setLayout(layout)
-
-class AddQuestionPage(QWidget):
-    def __init__(self, parent):
-        super().__init__()
-        self.parent = parent
-        self.initUI()
-
-    def initUI(self):
-        layout = QVBoxLayout()
-
-        self.question_input = QTextEdit()
-        self.question_input.setPlaceholderText('Enter new questions (one per line)')
-        layout.addWidget(self.question_input)
-
-        self.answer_input = QTextEdit()
-        self.answer_input.setPlaceholderText('Enter answers (one per line, in the same order as questions)')
-        layout.addWidget(self.answer_input)
-
-        button_layout = QHBoxLayout()
-
-        self.add_button = QPushButton('Add')
-        self.add_button.clicked.connect(self.addQuestions)
-        button_layout.addWidget(self.add_button)
-
-        self.back_button = QPushButton('Back')
-        self.back_button.clicked.connect(self.parent.showQuizPage)
-        button_layout.addWidget(self.back_button)
-
-        layout.addLayout(button_layout)
-
-        self.setLayout(layout)
-
-    def addQuestions(self):
-        questions = self.question_input.toPlainText().splitlines()
-        answers = self.answer_input.toPlainText().splitlines()
-
-        if len(questions) == len(answers):
-            for question, answer in zip(questions, answers):
-                if question and answer:
-                    self.parent.Ques[question] = answer
-            self.parent.saveQuestions()
-            QMessageBox.information(self, 'Questions Added', f'{len(questions)} 문제가 추가되었습니다.')
-            self.question_input.clear()
-            self.answer_input.clear()
-        else:
-            QMessageBox.warning(self, 'Invalid Input', '문제와 정답의 개수가 일치하지 않습니다.')
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
