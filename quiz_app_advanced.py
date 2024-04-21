@@ -144,6 +144,8 @@ class QuizApp(QWidget):
             self.nextQuestion()
         else:
             QMessageBox.warning(self, 'Incorrect', f'틀렸습니다. 정답은 "{self.Ques[self.question]}"입니다.')
+            self.saveQuestions()
+            self.nextQuestion()
     def addQuestion(self, question, answer):
         if question and answer:
             self.Ques[question] = answer

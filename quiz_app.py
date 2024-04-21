@@ -86,7 +86,8 @@ class QuizApp(QWidget):
             self.nextQuestion()
         else:
             QMessageBox.warning(self, 'Incorrect', f'틀렸습니다. 정답은 "{self.Ques[self.question]}"입니다.')
-
+            self.saveQuestions()
+            self.nextQuestion()
     def addQuestion(self, question, answer):
         if question and answer:
             self.Ques[question] = answer
@@ -95,6 +96,7 @@ class QuizApp(QWidget):
             QMessageBox.information(self, 'Question Added', '새로운 문제가 추가되었습니다.')
         else:
             QMessageBox.warning(self, 'Invalid Input', '문제와 정답을 모두 입력해주세요.')
+            self.nextQuestion()
 
     def updateOriginalJSONFile(self):
         with open(self.json_file, 'w', encoding='utf-8') as file:
