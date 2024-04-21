@@ -1,8 +1,11 @@
-import sys
-import random
-import json
+import sys, anthropic, os, random, json
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QStackedWidget, QTextEdit
+from dotenv import load_dotenv
 
+client = anthropic.Anthropic(
+    # defaults to os.environ.get("ANTHROPIC_API_KEY")
+    api_key="your api key",
+)
 class QuizApp(QWidget):
     def __init__(self):
         super().__init__()
@@ -46,7 +49,63 @@ class QuizApp(QWidget):
 
     def checkAnswer(self):
         user_answer = self.quiz_page.answer_input.text()
-        if user_answer == self.Ques[self.question]:
+        message = client.messages.create(
+            model="claude-3-haiku-20240307",
+            max_tokens=1000,
+            temperature=0,
+            system="From now on, if the question given as a judge and the correct answer are given, you can judge whether the user's answer is correct. At this time, the answer is yes or no",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Q:한국의 수도는? Answer: 서울 User Response: Seoul"
+                        }
+                    ]
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Yes"
+                        }
+                    ]
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Q:소비자와 소비자의 파트너가 클라우드 서비스를 이용하여 모바일 기기로 클라우드 컴퓨팅 인프라를 구성하여 여러 가지 정보와 자우너을 공유하는 ICT 기술 Answer: 모바일 클라우드 컴퓨팅 User Response: TCP/IP"
+                        }
+                    ]
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "No"
+                        }
+                    ]
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": f"Q:{self.question} Answer: {self.Ques[self.question]} User Response: {user_answer}",
+                        }
+                    ]
+                }
+            ]
+        )
+        judge_result = message.content[0].text
+
+
+        if judge_result.lower() == "yes":
             QMessageBox.information(self, 'Correct', '정답입니다!')
             self.Ques.pop(self.question)
             self.saveQuestions()
@@ -132,6 +191,7 @@ class AddQuestionPage(QWidget):
         layout.addLayout(button_layout)
 
         self.setLayout(layout)
+
 
     def addQuestions(self):
         questions = self.question_input.toPlainText().splitlines()

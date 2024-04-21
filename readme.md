@@ -13,10 +13,24 @@ Quiz App은 사용자가 문제를 풀고 새로운 문제를 추가할 수 있�
 - 문제와 정답은 `questions.json` 파일에 저장되어 다음에 애플리케이션을 실행할 때도 사용할 수 있습니다.
 - 현재는 정보처리산업기사와 관련된 문항들이 questions.json에 저장되어 있습니다. 기타 목적으로 사용하실 경우에는 편집하여 사용하시면 됩니다.
 
+## 추가 기능: 생성형 AI를 활용한 정답 판단
+
+`quiz_app_advanced.py` 파일에는 생성형 AI를 활용하여 정답 판단을 개선한 버전의 Quiz App이 포함되어 있습니다. 이 버전에서는 Anthropic의 Claude API를 사용하여 주어진 답과 정답 간의 의미적 유사성을 판단합니다. 이를 통해 사용자의 답이 의미적으로 맞더라도 기존에는 틀렸다고 판단되던 문제를 해결할 수 있습니다.
+
+생성형 AI를 활용하려면 다음 단계를 따르세요:
+
+1. Anthropic에서 API 키를 발급받으세요.
+2. `quiz_app_advanced.py` 파일에서 `YOUR_API_KEY` 부분을 실제 API 키로 대체하세요.
+3. 필요한 라이브러리를 설치하세요: `pip install anthropic`
+4. `python quiz_app_advanced.py` 명령을 실행하여 개선된 버전의 Quiz App을 시작하세요.
+
+이 버전의 Quiz App은 기존 버전과 동일한 방식으로 동작하지만, 정답 판단 시 생성형 AI를 활용하여 보다 정확하고 유연한 판단을 제공합니다.
+
 ## 필요한 라이브러리
 
 - Python 3.x
 - PyQt5
+- anthropic (생성형 AI 버전에 필요)
 
 ## 설치 및 실행
 
@@ -25,10 +39,12 @@ Quiz App은 사용자가 문제를 풀고 새로운 문제를 추가할 수 있�
 3. 다음 명령을 실행하여 필요한 라이브러리를 설치하세요:
    ```
    pip install PyQt5
+   pip install anthropic (생성형 AI 버전에 필요)
    ```
 4. 다음 명령을 실행하여 애플리케이션을 시작하세요:
    ```
-   python quiz_app.py
+   python quiz_app.py (기본 버전)
+   python quiz_app_advanced.py (생성형 AI 버전)
    ```
 
 ## 사용 방법
@@ -44,7 +60,8 @@ Quiz App은 사용자가 문제를 풀고 새로운 문제를 추가할 수 있�
 
 ## 파일 구조
 
-- `quiz_app.py`: 메인 애플리케이션 파일
+- `quiz_app.py`: 메인 애플리케이션 파일 (기본 버전)
+- `quiz_app_advanced.py`: 생성형 AI를 활용한 개선된 버전의 애플리케이션 파일
 - `questions.json`: 문제와 정답이 저장되는 JSON 파일
 
 ## 기여
