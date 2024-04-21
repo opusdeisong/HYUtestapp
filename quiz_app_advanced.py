@@ -1,7 +1,9 @@
-import sys, anthropic, os, random, json
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QStackedWidget, QTextEdit
-from dotenv import load_dotenv
-
+import sys, anthropic
+import random
+import json
+import os
+import shutil
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QStackedWidget, QTextEdit, QFileDialog
 client = anthropic.Anthropic(
     # defaults to os.environ.get("ANTHROPIC_API_KEY")
     api_key="your api key",
@@ -9,9 +11,11 @@ client = anthropic.Anthropic(
 class QuizApp(QWidget):
     def __init__(self):
         super().__init__()
-        self.Ques = self.loadQuestions()
+        self.Ques = {}
         self.i = 0
         self.all = len(self.Ques)
+        self.json_file = ""
+        self.json_file_copy = ""
         self.initUI()
 
     def initUI(self):
@@ -33,13 +37,42 @@ class QuizApp(QWidget):
         self.add_button.clicked.connect(self.showAddPage)
         layout.addWidget(self.add_button)
 
+        self.select_button = QPushButton('Select JSON File')
+        self.select_button.clicked.connect(self.selectJSONFile)
+        layout.addWidget(self.select_button)
+
         self.setLayout(layout)
 
-        self.nextQuestion()
+    def selectJSONFile(self):
+        options = QFileDialog.Options()
+        file_name, _ = QFileDialog.getOpenFileName(self, "Select JSON File", "", "JSON Files (*.json)", options=options)
+        if file_name:
+            self.json_file = file_name
+            self.createJSONFileCopy()
+            self.Ques = self.loadQuestions()
+            self.all = len(self.Ques)
+            self.i = 0
+            self.showQuizPage()
+
+    def createJSONFileCopy(self):
+        base_name = os.path.basename(self.json_file)
+        self.json_file_copy = f"copy_{base_name}"
+        shutil.copyfile(self.json_file, self.json_file_copy)
+
+    def loadQuestions(self):
+        try:
+            with open(self.json_file_copy, 'r', encoding='utf-8') as file:
+                return json.load(file)
+        except FileNotFoundError:
+            return {}
+
+    def saveQuestions(self):
+        with open(self.json_file_copy, 'w', encoding='utf-8') as file:
+            json.dump(self.Ques, file, ensure_ascii=False)
 
     def nextQuestion(self):
         if len(self.Ques) == 0:
-            QMessageBox.information(self, 'Quiz Completed', f'모든 문제를 풀었습니다.\\n정답률: {(self.all / self.i) * 100:.2f}%')
+            QMessageBox.information(self, 'Quiz Completed', f'모든 문제를 풀었습니다.\n정답률: {(self.all / self.i) * 100:.2f}%')
             self.close()
         else:
             self.question = random.choice(list(self.Ques.keys()))
@@ -104,7 +137,6 @@ class QuizApp(QWidget):
         )
         judge_result = message.content[0].text
 
-
         if judge_result.lower() == "yes":
             QMessageBox.information(self, 'Correct', '정답입니다!')
             self.Ques.pop(self.question)
@@ -112,14 +144,18 @@ class QuizApp(QWidget):
             self.nextQuestion()
         else:
             QMessageBox.warning(self, 'Incorrect', f'틀렸습니다. 정답은 "{self.Ques[self.question]}"입니다.')
-
     def addQuestion(self, question, answer):
         if question and answer:
             self.Ques[question] = answer
             self.saveQuestions()
+            self.updateOriginalJSONFile()
             QMessageBox.information(self, 'Question Added', '새로운 문제가 추가되었습니다.')
         else:
             QMessageBox.warning(self, 'Invalid Input', '문제와 정답을 모두 입력해주세요.')
+
+    def updateOriginalJSONFile(self):
+        with open(self.json_file, 'w', encoding='utf-8') as file:
+            json.dump(self.Ques, file, ensure_ascii=False)
 
     def showAddPage(self):
         self.stack.setCurrentWidget(self.add_page)
@@ -128,16 +164,15 @@ class QuizApp(QWidget):
         self.stack.setCurrentWidget(self.quiz_page)
         self.nextQuestion()
 
-    def loadQuestions(self):
-        try:
-            with open('questions.json', 'r', encoding='utf-8') as file:
-                return json.load(file)
-        except FileNotFoundError:
-            return {}
+    def closeEvent(self, event):
+        self.deleteJSONFileCopy()
+        event.accept()
 
-    def saveQuestions(self):
-        with open('questions.json', 'w', encoding='utf-8') as file:
-            json.dump(self.Ques, file, ensure_ascii=False)
+    def deleteJSONFileCopy(self):
+        if self.json_file_copy and os.path.exists(self.json_file_copy):
+            os.remove(self.json_file_copy)
+
+
 
 class QuizPage(QWidget):
     def __init__(self, parent):
@@ -191,7 +226,6 @@ class AddQuestionPage(QWidget):
         layout.addLayout(button_layout)
 
         self.setLayout(layout)
-
 
     def addQuestions(self):
         questions = self.question_input.toPlainText().splitlines()
