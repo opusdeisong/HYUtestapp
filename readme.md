@@ -31,6 +31,16 @@ Quiz App은 사용자가 JSON 파일에서 문제를 로드하여 퀴즈를 풀 
 2. `quiz_app_advanced.py` 파일에서 `YOUR_API_KEY` 부분을 실제 API 키로 대체하세요.
 3. 필요한 라이브러리를 설치하세요: `pip install anthropic`
 
+## 추가 기능: Groq 활용(무료여서 넣었습니다.)
+
+`quiz_app_advanced(grok).py` 파일에는 생성형 AI를 활용하여 정답 판단을 개선한 버전의 Quiz App이 포함되어 있습니다. 이 버전에서는 Groq LLama 8B API를 사용하여 주어진 답과 정답 간의 의미적 유사성을 판단합니다. 이를 통해 사용자의 답이 의미적으로 맞더라도 기존에는 틀렸다고 판단되던 문제를 해결할 수 있습니다.
+
+생성형 AI를 활용하려면 다음 단계를 따르세요:
+
+1. Groq에서 API 키를 발급받으세요.
+2. `quiz_app_advanced(groq).py` 파일에서 `YOUR_API_KEY` 부분을 실제 API 키로 대체하세요.
+3. 필요한 라이브러리를 설치하세요: `pip install groq`
+
 ### 생성형 AI 정답 판단 예시
 
 예를 들어, 다음과 같은 문제와 정답이 JSON 파일에 저장되어 있다고 가정해보겠습니다:
