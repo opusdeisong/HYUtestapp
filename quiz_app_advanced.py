@@ -3,17 +3,22 @@ import random
 import json
 import os
 import shutil
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QStackedWidget, QTextEdit, QFileDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, \
+    QMessageBox, QStackedWidget, QTextEdit, QFileDialog
+
 client = anthropic.Anthropic(
     # defaults to os.environ.get("ANTHROPIC_API_KEY")
     api_key="your api key",
 )
+
+
 class QuizApp(QWidget):
     def __init__(self):
         super().__init__()
         self.Ques = {}
-        self.i = 0
-        self.all = len(self.Ques)
+        self.total_questions = 0
+        self.current_question_index = 0
+        self.correct_count = 0
         self.json_file = ""
         self.json_file_copy = ""
         self.initUI()
@@ -55,7 +60,9 @@ class QuizApp(QWidget):
     def loadQuestions(self):
         try:
             with open(self.json_file_copy, 'r', encoding='utf-8') as file:
-                return json.load(file)
+                self.Ques = json.load(file)
+                self.total_questions = len(self.Ques)
+                return self.Ques
         except FileNotFoundError:
             return {}
 
@@ -65,13 +72,15 @@ class QuizApp(QWidget):
 
     def nextQuestion(self):
         if len(self.Ques) == 0:
-            QMessageBox.information(self, 'Quiz Completed', f'모든 문제를 풀었습니다.\n정답률: {(self.all / self.i) * 100:.2f}%')
+            accuracy = (self.correct_count / self.total_questions) * 100 if self.total_questions > 0 else 0
+            QMessageBox.information(self, 'Quiz Completed', f'모든 문제를 풀었습니다.\n정답률: {accuracy:.2f}%')
             self.close()
         else:
             self.question = random.choice(list(self.Ques.keys()))
-            self.i += 1
+            self.current_question_index += 1
             self.quiz_page.question_label.setText(f'Q: {self.question}')
             self.quiz_page.answer_input.clear()
+            self.updateProgressLabel()
 
     def checkAnswer(self):
         user_answer = self.quiz_page.answer_input.text()
@@ -131,18 +140,24 @@ class QuizApp(QWidget):
         judge_result = message.content[0].text
 
         if judge_result.lower() == "yes":
-            QMessageBox.information(self, 'Correct', '정답입니다!')
+            QMessageBox.information(self, 'Correct', f'정답입니다. 정답은 "{self.Ques[self.question]}"입니다.')
+            self.correct_count += 1
             self.Ques.pop(self.question)
             self.saveQuestions()
             self.nextQuestion()
         else:
             QMessageBox.warning(self, 'Incorrect', f'틀렸습니다. 정답은 "{self.Ques[self.question]}"입니다.')
+            self.current_question_index -= 1  # 틀린 문항은 진행도에서 제외
             self.saveQuestions()
             self.nextQuestion()
 
     def showQuizPage(self):
         self.stack.setCurrentWidget(self.quiz_page)
         self.nextQuestion()
+
+    def updateProgressLabel(self):
+        progress_text = f'문항 진행도: {self.current_question_index}/{self.total_questions}'
+        self.quiz_page.progress_label.setText(progress_text)
 
     def closeEvent(self, event):
         self.deleteJSONFileCopy()
@@ -151,7 +166,6 @@ class QuizApp(QWidget):
     def deleteJSONFileCopy(self):
         if self.json_file_copy and os.path.exists(self.json_file_copy):
             os.remove(self.json_file_copy)
-
 
 
 class QuizPage(QWidget):
@@ -174,7 +188,11 @@ class QuizPage(QWidget):
         self.submit_button.clicked.connect(self.parent.checkAnswer)
         layout.addWidget(self.submit_button)
 
+        self.progress_label = QLabel()
+        layout.addWidget(self.progress_label)
+
         self.setLayout(layout)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
