@@ -1,0 +1,17 @@
+{
+    "A knowledge graph represents information pieces and their relationships in a ____-structured format": "graph",
+    "In a knowledge graph, information is stored as triples in the format (____, ____, ____)": "Head, Relation, Tail",
+    "Wikidata contains approximately ____ million entities": "120",
+    "Why do LMs understand KGs more easily than unstructured documents?": "Explicit relations and concepts",
+    "In G-Retriever's indexing step, node and edge attributes are encoded using ____": "SentenceBERT",
+    "The Prize-Collecting Steiner Tree algorithm in G-Retriever aims to maximize ____ while minimizing ____": "total prize of nodes and edges, total cost of edges",
+    "G-Retriever uses ____ to encode graph structure information that complements textualized graphs": "Graph Transformer or Graph Neural Network",
+    "According to the ablation study, the two most critical components of G-Retriever are the ____ and the ____": "graph encoder, textualized graph",
+    "In Think-on-Graph (ToG), the beam search maintains the top ____ reasoning paths at each expansion step": "N",
+    "ToG determines whether current reasoning paths are adequate by asking the LM to evaluate if information is ____": "sufficient or enough",
+    "Why does ToG prune low-scoring relations and entities during exploration?": "To filter irrelevant information and keep graph size manageable",
+    "ToG's accuracy saturates at approximately search depth = ____ and width = ____": "3, 3",
+    "When comparing pruning tools in ToG, ____ outperforms both BM25 and SentenceBERT": "ChatGPT or LLM",
+    "The main advantage of dynamic exploration over static incorporation is the ability to ____": "explore KG iteratively or perform multi-hop reasoning adaptively",
+    "What is a key limitation of ToG compared to static approaches?": "High inference cost from generating many tokens"
+  }

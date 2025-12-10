@@ -1,0 +1,11 @@
+[project]
+name = "quiz-app"
+version = "0.1.0"
+description = "AI-powered quiz application with OpenAI integration"
+readme = "readme.md"
+requires-python = ">=3.12"
+dependencies = [
+    "openai>=2.9.0",
+    "pyqt5>=5.15.11",
+    "python-dotenv>=1.2.1",
+]

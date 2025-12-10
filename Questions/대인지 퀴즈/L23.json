@@ -1,0 +1,17 @@
+{
+    "The two main components of tool selection are ____ and ____": "Tool Retrieval and Tool Choice",
+    "ToolkenGPT trains only the ____ layer, keeping the LLM frozen": "Unembedding",
+    "In ToolkenGPT, argument generation after toolken prediction uses ____": "In-Context Learning",
+    "Why does ToolkenGPT require less training time than LoRA fine-tuning?": "Only trains tool embeddings, not entire model parameters",
+    "PA-Tool uses ____ as the metric to identify which tool naming convention the model is most familiar with": "Peakedness",
+    "The formula for peakedness in PA-Tool counts how many candidates are within edit distance ____": "τ (tau/threshold)",
+    "Why do Small Language Models hallucinate tool names according to PA-Tool?": "Schema misalignment between pretraining knowledge and context tools",
+    "PA-Tool reduces schema misalignment errors by approximately ____": "80%",
+    "Agent-R generates revision trajectories by cutting bad trajectories at the ____": "Transition point",
+    "The transition point in Agent-R is identified as the ____ bad action in a failed trajectory": "First",
+    "In Agent-R's iterative training, only parameter ____ increases across iterations": "α (alpha)",
+    "Why do revision trajectories outperform optimal-only trajectories in Agent-R?": "They teach both correct execution and error recovery",
+    "MCTS balances ____ and ____ using the UCT strategy": "Exploitation and Exploration",
+    "In the MCTS process, which step updates node values based on simulation results?": "Backpropagation",
+    "The main limitation of ToolkenGPT identified in the paper is ____": "Scalability to large tool libraries not fully explored"
+  }

@@ -1,0 +1,22 @@
+{
+    "The four main components of a traditional dialogue management system pipeline are NLU, DST, ____, and NLG.": "Dialogue Policy (DP)",
+    "In an ontology, an intent is often considered as a ____ to call.": "function",
+    "In an ontology, a slot is often considered as an ____ of a function.": "argument",
+    "What is the role of Natural Language Understanding (NLU) in a dialogue management system?": "Identify intents and slot values from user utterances",
+    "Why does Dialogue State Tracking (DST) need to maintain all slot values rather than just the current turn's values?": "To accumulate information across turns for accurate DB queries",
+    "What is the difference between categorical and non-categorical slots in MultiWOZ?": "Categorical slots have predefined values; non-categorical slots accept free-form text",
+    "In MultiWOZ data collection, why were some task templates designed with constraints that have no matching database entry?": "To introduce realistic scenarios where users must adjust their requirements",
+    "What does 'co-referencing and lexical entailment through implicit mentioning' mean in MultiWOZ tourist tasks?": "Users refer to previous context indirectly (e.g., 'same area as the hotel')",
+    "Joint Goal Accuracy measures the percentage of dialogue turns where ____ are assigned correct values.": "all slots",
+    "Why might SimpleTOD perform better without DB results than with oracle DB results in response generation?": "Surface form mismatches between DB values and response mentions penalize metrics",
+    "In SimpleTOD, what is the purpose of using delexicalized responses with placeholders like [value_count]?": "To ensure responses are faithful to actual DB results",
+    "SimpleTOD treats the entire TOD pipeline as a ____ problem.": "seq2seq (sequence-to-sequence)",
+    "Why do pre-trained language models substantially improve SimpleTOD's performance compared to randomly initialized models?": "Pre-training provides better language understanding and generation capabilities",
+    "What is the main limitation of scoring in-context examples individually in retrieval-based DST?": "It selects redundant examples that offer little new information",
+    "Why is relying solely on dialogue state similarity problematic for in-context example retrieval?": "It ignores conversational characteristics like dialogue flow and style",
+    "CombiSearch uses BM25 and SBERT for pool construction to consider ____ beyond dialogue states alone.": "diverse linguistic factors",
+    "How does CombiSearch score in-context examples differently from previous methods?": "By evaluating combinations of examples based on actual DST performance",
+    "In CombiSearch, examples that frequently appear in successful DST combinations receive ____ scores.": "higher",
+    "What metric does CombiSearch use to assign scores to in-context examples during the example scoring phase?": "JGA (Joint Goal Accuracy)",
+    "CombiSearch with 5% training data surpasses baselines trained on 100% data. What does this demonstrate?": "High data efficiency of the combinatorial search approach"
+  }

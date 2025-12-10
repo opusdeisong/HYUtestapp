@@ -1,0 +1,22 @@
+{
+    "The two main categories of required abilities for tool-augmented agents are ____ and ____.": "Autonomy and Interaction with Humans",
+    "Why is an LM-emulated sandbox needed for testing tool agent safety?": "To safely test rare and dangerous situations without implementing actual tools",
+    "In ToolEmu, the tool emulator uses ____ to simulate tool execution without manual implementation.": "LLM (or GPT-4)",
+    "The adversarial emulator in ToolEmu is designed to target ____ compared to the standard emulator.": "potential risks",
+    "What are the three main components introduced in the TrustAgent framework?": "Pre-planning, in-planning, and post-planning strategies",
+    "The Agent Constitution covers three scopes of concern: human-agent interaction, agent-agent interaction, and ____.": "agent-tool interaction",
+    "In TrustAgent's post-planning strategy, what happens if a plan repeatedly violates safety regulations?": "Terminate or abort execution",
+    "Why is the pre-planning strategy in TrustAgent implemented through fine-tuning?": "To inject safety knowledge and regulations before planning begins",
+    "Task 1 in the MetaTool benchmark evaluates whether LLMs have ____ awareness.": "tool usage",
+    "In MetaTool's evaluation, what does a 'negative sample' represent in Task 1?": "Queries solvable by LLMs without tools",
+    "The ToolE dataset contains approximately ____ queries generated across ____ tools.": "21,127 queries and 195 tools",
+    "In MetaTool's Subtask 3 (Reliability Issues), what is the correct answer when the ground truth tool is NOT in the list?": "None",
+    "What problem does LLMCompiler address compared to traditional ReAct execution?": "High latency and cost from sequential execution",
+    "In LLMCompiler, the ____ converts the LLM's tool-calling plan into a task graph.": "Function Calling Planner",
+    "What does DAG stand for in the context of LLMCompiler?": "Directed Acyclic Graph",
+    "The Task Fetching Unit in LLMCompiler selects tasks that have ____, are not yet executed, and are not currently running.": "no unmet dependencies",
+    "Why does LLMCompiler achieve lower token consumption than ReAct?": "It reduces the number of LLM round-trips by executing tasks in parallel",
+    "According to ToolEmu results, which prompting approach improved both safety and helpfulness scores?": "Safety-aware prompting",
+    "What is the main limitation identified for the ToolEmu approach?": "Correctness of LM-emulator",
+    "In LLMCompiler experiments, the framework achieved approximately ____x speedup on the Game of 24 benchmark using GPT.": "2.89x"
+  }

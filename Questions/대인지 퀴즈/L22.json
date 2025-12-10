@@ -1,0 +1,16 @@
+{
+    "What are the two main categories of required abilities for tool agents?": "Autonomy and Interaction with Humans",
+    "In ReAct, what two processes are interleaved in each step?": "Thought and Action",
+    "Why does ReAct reduce hallucinations compared to Chain of Thought (CoT)?": "ReAct interacts with external environment to ground reasoning in real observations",
+    "What is the key limitation of the Plan-and-Execute approach?": "Lacks adaptability; if a single subtask fails, the entire task fails",
+    "What does ADaPT stand for?": "As-Needed Decomposition and Planning",
+    "In ADaPT, when is the Planner invoked?": "Only when the Executor detects a failure",
+    "What logical operators does ADaPT's Planner use to combine steps?": "AND and OR",
+    "Why does ADaPT's success heuristic fail in the WebShop environment?": "LLM's self-assessment overestimates success, ending tasks before sufficient decomposition",
+    "What is Physical AI's primary objective?": "Physical task execution in the real world",
+    "What is the Matter standard in smart homes?": "A standard protocol enabling interoperability across different smart home devices and platforms",
+    "What are the four main constraint types evaluated in SimuHome?": "Implicit User Intent, Physical Constraint, Temporal Constraint, Logical Contradiction",
+    "Why do agents struggle with temporal scheduling tasks in SimuHome?": "Scheduling tools provide acknowledgment without validating future executability (deferred feedback)",
+    "What is the main advantage of ReAct over Act-Only approaches?": "ReAct includes reasoning process to understand context, avoiding repetitive and incorrect actions",
+    "What does the Controller in ADaPT do?": "Parses Executor responses, requests decomposition from Planner on failure, and recursively invokes ADaPT for sub-steps"
+  }

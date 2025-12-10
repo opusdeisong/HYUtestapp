@@ -1,0 +1,23 @@
+{
+    "Sparse retrieval is based on the ____ ____ between query and document using sparse vectors.": "keyword overlap",
+    "The main advantage of sparse retrieval methods like BM25 is that they are ____ and ____": "fast and interpretable",
+    "The key limitation of sparse retrieval is its failure to capture ____ and ____": "semantic meaning and synonyms",
+    "Dense retrieval methods represent documents and queries using ____ typically derived from neural networks": "dense vectors",
+    "In Dense Passage Retrieval (DPR), the document encoder BERT_D is ____ during training": "frozen",
+    "The loss function in DPR aims to maximize the ____ between query and positive document while minimizing it for negative documents": "dot product or similarity",
+    "Why does DPR use in-batch negatives during training?": "To efficiently compute contrastive loss across multiple examples simultaneously",
+    "Vector databases like FAISS are optimized for ____ operations on large-scale datasets": "similarity search or nearest neighbor search",
+    "In RAG-Sequence, the same ____ is used to generate all tokens in the response": "document",
+    "In RAG-Token, different ____ can be used for generating different tokens": "documents",
+    "Why does RAG-Token allow more flexible document usage compared to RAG-Sequence?": "It marginalizes over documents at each token generation step rather than once per sequence",
+    "The main advantage of In-Context RAG over original RAG is that it does not require ____": "fine-tuning or model training",
+    "In In-Context RAG, retrieving documents more frequently (smaller stride s) improves ____ but increases ____": "performance, latency or computational cost",
+    "Why might using only BM25 be beneficial for certain QA tasks?": "When queries and documents have high keyword overlap",
+    "The Wizard of Wikipedia dataset was created to train dialogue systems that can ____": "leverage external knowledge or generate knowledge-grounded responses",
+    "In the Wizard of Wikipedia data collection, the wizard role is responsible for ____": "selecting relevant knowledge and generating informed responses",
+    "Why do two-stage models outperform end-to-end models in Wizard of Wikipedia with predicted knowledge?": "They benefit from stronger knowledge selection in the first stage",
+    "Knowledge dropout in the two-stage model helps the generator become more robust to ____": "mistakes in knowledge selection",
+    "The Wiki F1 metric measures the ____ between model utterances and Wikipedia content": "unigram overlap or F1 score",
+    "Why do humans achieve higher Rating but lower Wiki F1 compared to models in Wizard of Wikipedia?": "Humans are more engaging but incorporate less specific Wikipedia knowledge",
+    "The main weakness of knowledge-grounded generative models is their tendency to produce ____ responses": "lecturing or formulaic"
+  }
